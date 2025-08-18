@@ -1,15 +1,18 @@
 <script setup>
 import JSON from './components/JSON.vue' 
 import AttributeBinding from './components/AttributeBinding.vue'
+import LoginForm from './components/LoginForm.vue';
 </script>
 
 <template>
-  <JSON />
-  <AttributeBinding />
+  <!--JSON /-->
+  <!--AttributeBinding /-->
+
+  <LoginForm />
 </template>
 
 <style scoped>
-header {
+/* header {
   line-height: 1.5;
 }
 
@@ -34,5 +37,5 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
-}
+} */
 </style>
