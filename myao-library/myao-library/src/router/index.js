@@ -2,9 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginFormView from '../components/LoginForm.vue'
 import AboutView from '../views/AboutView.vue'
-
-// router/index.js 里
-import { isAuthenticated } from '@/store/auth'
+import { isAuthenticated } from '../store/auth'
 
 
 const routes = [
@@ -13,7 +11,7 @@ const routes = [
     name: 'Home',
     component: HomeView
   },
-  
+
   {
   path: '/login',
   name: 'Login',
@@ -22,7 +20,8 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: AboutView
+    component: AboutView,
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -32,8 +31,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'About' && !isAuthenticated.value) {
-    next({ name: 'Login' })
+  const needAuth = to.matched.some(r => r.meta.requiresAuth)
+  if (needAuth && !isAuthenticated.value) {
+    next({ name: 'Login', query: { redirect: to.fullPath } })
   } else {
     next()
   }

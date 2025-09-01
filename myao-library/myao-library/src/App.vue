@@ -1,9 +1,9 @@
 <script setup>
-import JSON from './components/JSON.vue' 
-import AttributeBinding from './components/AttributeBinding.vue'
-import LoginForm from './components/LoginForm.vue';
+//import JSON from './components/JSON.vue' 
+//import AttributeBinding from './components/AttributeBinding.vue'
+//import LoginForm from './components/LoginForm.vue';
 import BHeader from './components/BHeader.vue';
-import router from './router';
+//import router from './router';
 </script>
 
 <template>

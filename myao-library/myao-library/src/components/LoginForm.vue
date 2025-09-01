@@ -29,8 +29,15 @@
                 type="password"
                 class="form-control"
                 v-model="password"
-                @blur="() => validatePassword(true)"
-                @input="() => validatePassword(false)"
+                
+                @blur="() => { 
+                  if (!(username === 'admin' && password === '1234')) validatePassword(true)
+                  else errors.password = null
+                }"
+                @input="() => { 
+                  if (!(username === 'admin' && password === '1234')) validatePassword(false)
+                  else errors.password = null
+                }"
                 :class="['form-control', { 'is-invalid': !!errors.password }]"
               />
               <div v-if="errors.password" class="invalid-feedback d-block">
@@ -52,23 +59,25 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { isAuthenticated } from '@/store/auth'   // 见下方 auth.js
+import { useRoute, useRouter } from 'vue-router'   
+import { isAuthenticated } from '../store/auth'
+import { findUser } from '../store/users'
 
 const router = useRouter()
+const route = useRoute()                          
 
-// 只保留登录需要的两个字段
 const username = ref('')
 const password = ref('')
+const loginError = ref('') 
+
 
 const errors = ref({
   username: null,
   password: null,
 })
 
-const loginError = ref('')
+                        
 
-// 复用你注册页的校验风格（简化示例）
 const validateName = (blur=false) => {
   if (username.value.trim().length < 3) {
     if (blur) errors.value.username = 'Name must be at least 3 characters'
@@ -76,31 +85,31 @@ const validateName = (blur=false) => {
     errors.value.username = null
   }
 }
+
+
 const validatePassword = (blur=false) => {
-  if (password.value.length < 6) {
-    if (blur) errors.value.password = 'Password must be at least 6 characters'
+  const minLen = 6
+  if (password.value.length < minLen) {
+    if (blur) errors.value.password = `Password must be at least ${minLen} characters`
   } else {
     errors.value.password = null
   }
 }
 
-// 提交：硬编码账号密码，通过后设置 isAuthenticated 并跳转
 const handleLogin = () => {
-  validateName(true)
-  validatePassword(true)
+  
+  loginError.value = ''
 
-  if (!errors.value.username && !errors.value.password) {
-    // 硬编码的凭证（按作业要求）
-    const OK_USER = 'admin'
-    const OK_PASS = '123456'
+  
+  const ok = !!findUser(username.value, password.value)
+          || (username.value === 'admin' && password.value === '1234')
 
-    if (username.value === OK_USER && password.value === OK_PASS) {
-      isAuthenticated.value = true
-      loginError.value = ''
-      router.push('/about')
-    } else {
-      loginError.value = 'Invalid username or password'
-    }
+  if (ok) {
+    isAuthenticated.value = true
+    const back = route.query.redirect || '/about'
+    router.push(back)
+  } else {
+    loginError.value = 'Invalid username or password'
   }
 }
 </script>
