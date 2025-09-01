@@ -2,278 +2,105 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <h1 class="text-center">User Information Form</h1>
-        <form @submit.prevent="submitForm">
+        <h1 class="text-center">Login</h1>
 
+        <form @submit.prevent="handleLogin">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" @blur="() => validateName(true)"
-                @input="() => validateName(false)" v-model="formData.username" :class="['form-control', { 'is-invalid': !!errors.username }]"/>
-              <div v-if="errors.username" class="invalid-feedback d-block">{{ errors.username }}</div>
+              <input
+                id="username"
+                type="text"
+                class="form-control"
+                v-model="username"
+                @blur="() => validateName(true)"
+                @input="() => validateName(false)"
+                :class="['form-control', { 'is-invalid': !!errors.username }]"
+              />
+              <div v-if="errors.username" class="invalid-feedback d-block">
+                {{ errors.username }}
+              </div>
             </div>
+
             <div class="col-md-6">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" @blur="() => validatePassword(true)"
-                @input="() => validatePassword(false)" 
-                v-model="formData.password" :class="['form-control', { 'is-invalid': !!errors.password }]"/>
-              <div v-if="errors.password" class="invalid-feedback d-block">{{ errors.password }}</div>
-            </div>
-          </div>
-          <div class="row mb-3">
-
-            <div class="col-md-6">
-              <div class="d-flex align-items-center">
-            
-                <label class="form-label mb-0 me-4">Australian Resident?</label>
-
-                
-                <div class="d-flex align-items-center gap-4">
-                  <div class="form-check m-0">
-                    <input class="form-check-input me-2" type="radio" id="residentYes" value="Yes"
-                      v-model="formData.isAustralian" @blur="() => validationResident(true)"
-                      @input="() => validationResident(false)" :class="['form-check-input', { 'is-invalid': !!errors.resident }]"/>
-                    <label class="form-check-label" for="residentYes">Yes</label>
-                  </div>
-
-                  <div class="form-check m-0">
-                    <input class="form-check-input me-2" type="radio" id="residentNo" value="No"
-                      v-model="formData.isAustralian" @blur="() => validationResident(true)" @input="() => validationResident(false)" />
-                    <label class="form-check-label" for="residentNo">No</label>
-                  </div>
-                </div>
-              </div>
-
-         
-              <div v-if="errors.resident" class="invalid-feedback d-block">
-                {{ errors.resident }}
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                v-model="password"
+                @blur="() => validatePassword(true)"
+                @input="() => validatePassword(false)"
+                :class="['form-control', { 'is-invalid': !!errors.password }]"
+              />
+              <div v-if="errors.password" class="invalid-feedback d-block">
+                {{ errors.password }}
               </div>
             </div>
-
-
-
-            <!--
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="isAustralian" v-model="formData.isAustralian">
-                <label class="form-check-label" for="isAustralian">Australian Resident?</label>
-              
-              </div>
-            -->
-
-
-            <div class="col-md-6">
-              <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" v-model="formData.gender" @blur="() => validateGender(true)"
-                @change="() => validateGender(false)" :class="{ 'is-invalid': errors.gender }">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-              </select>
-              <div v-if="errors.gender" class="invalid-feedback d-block">{{ errors.gender }}</div>
-
-            </div>
           </div>
-          <div class="mb-3">
-            <label for="reason" class="form-label">Reason for joining</label>
-            <textarea class="form-control" id="reason" rows="3" @blur="() => validateReason(true)"
-              @input="() => validateReason(false)" :class="['form-control', { 'is-invalid': !!errors.reason }]" v-model="formData.reason"></textarea>
-            <div v-if="errors.reason" class="invalid-feedback d-block">{{ errors.reason }}</div>
-          </div>
+
+          <div class="text-danger mb-3" v-if="loginError">{{ loginError }}</div>
+
           <div class="text-center">
-            <button type="submit" class="btn btn-primary me-2">Submit</button>
-            <button type="button" class="btn btn-secondary" @click="clearForm">Clear</button>
+            <button type="submit" class="btn btn-primary me-2">Login</button>
           </div>
-
         </form>
       </div>
     </div>
-
-    <!--
-    
-    <div class="row mt-5" v-if="submittedCards.length">
-      <div class="d-flex flex-wrap justify-content-start">
-        <div v-for="(card, index) in submittedCards" :key="index" class="card m-2" style="width: 18rem;">
-          <div class="card-header">
-            User Information
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Username: {{ card.username }}</li>
-            <li class="list-group-item">Password: {{ card.password }}</li>
-            <li class="list-group-item">Australian Resident: {{ card.isAustralian ? 'Yes' : 'No' }}</li>
-            <li class="list-group-item">Gender: {{ card.gender }}</li>
-            <li class="list-group-item">Reason: {{ card.reason }}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    
-    -->
-
-    <DataTable 
-    v-if="submittedCards.length > 0"
-    :value="submittedCards" class="mt-4" tableStyle="min-width: 56rem">
-      <Column field="username" header="Username" />
-      <Column field="password" header="Password" />
-      <Column field="isAustralian" header="Australian Resident">
-        <template #body="{ data }">
-          {{ data.isAustralian }}
-        </template>
-      </Column>
-      <Column field="gender" header="Gender" />
-      <Column field="reason" header="Reason" />
-    </DataTable>
-    
-
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { isAuthenticated } from '@/store/auth'   // 见下方 auth.js
 
-const formData = ref({
-  username: '',
-  password: '',
-  isAustralian:'',
-  reason: '',
-  gender: ''
-});
+const router = useRouter()
 
-const submittedCards = ref([]);
-
-/*
-submittedCards.value.push({
-    username: formData.value.username,
-    password: formData.value.password,
-    isAustralian: formData.value.isAustralian,
-    gender: formData.value.gender,
-    reason: formData.value.reason
-    
-
-})
- */
-
-const submitForm = () => {
-  validateName(true);
-  validatePassword(true);
-  validationResident(true);
-  validateGender(true);
-  validateReason(true)
-  if (!errors.value.username && !errors.value.password && !errors.value.gender && !errors.value.reason && !errors.value.resident) {
-    submittedCards.value.push({ ...formData.value });
-    clearForm();
-  }
-
-
-
-};
-
-const clearForm = () => {
-  formData.value = {
-    username: '',
-    password: '',
-    isAustralian: '',
-    reason: '',
-    gender: ''
-  }
-}
+// 只保留登录需要的两个字段
+const username = ref('')
+const password = ref('')
 
 const errors = ref({
   username: null,
   password: null,
-  resident: null,
-  gender: null,
-  reason: null,
+})
+
+const loginError = ref('')
+
+// 复用你注册页的校验风格（简化示例）
+const validateName = (blur=false) => {
+  if (username.value.trim().length < 3) {
+    if (blur) errors.value.username = 'Name must be at least 3 characters'
+  } else {
+    errors.value.username = null
+  }
 }
-
-);
-
-const validateName = (blur) => {
-  if (formData.value.username.length < 3) {
-    if (blur) errors.value.username = "Name must be at least 3 characters";
+const validatePassword = (blur=false) => {
+  if (password.value.length < 6) {
+    if (blur) errors.value.password = 'Password must be at least 6 characters'
   } else {
-    errors.value.username = null;
-
-  }
-};
-
-const validatePassword = (blur) => {
-  const password = formData.value.password;
-  const minLength = 8;
-  const hasUppercase = /[A-Z]/.test(password);
-  const hasLowercase = /[a-z]/.test(password);
-  const hasNumber = /\d/.test(password);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-  if (password.length < minLength) {
-    if (blur) errors.value.password = `Password must be at least ${minLength} characters long.`;
-  } else if (!hasUppercase) {
-    if (blur) errors.value.password = "Password must contain at least one uppercase letter.";
-  } else if (!hasLowercase) {
-    if (blur) errors.value.password = "Password must contain at least one lowercase letter.";
-  } else if (!hasNumber) {
-    if (blur) errors.value.password = "Password must contain at least one number.";
-  } else if (!hasSpecialChar) {
-    if (blur) errors.value.password = "Password must contain at least one special character.";
-  } else {
-    errors.value.password = null;
-  }
-};
-
-const validationResident = (blur) => {
-  const resident = formData.value.isAustralian
-  if (!resident) {
-    if (blur) errors.value.resident = "Resident Type is required";
-  } else {
-    errors.value.resident = null;
+    errors.value.password = null
   }
 }
 
-const validateGender = (blur) => {
-  const gender = formData.value.gender;
+// 提交：硬编码账号密码，通过后设置 isAuthenticated 并跳转
+const handleLogin = () => {
+  validateName(true)
+  validatePassword(true)
 
-  if (!gender) {
-    if (blur) errors.value.gender = "Gender is required";
-  } else {
-    errors.value.gender = null;
+  if (!errors.value.username && !errors.value.password) {
+    // 硬编码的凭证（按作业要求）
+    const OK_USER = 'admin'
+    const OK_PASS = '123456'
+
+    if (username.value === OK_USER && password.value === OK_PASS) {
+      isAuthenticated.value = true
+      loginError.value = ''
+      router.push('/about')
+    } else {
+      loginError.value = 'Invalid username or password'
+    }
   }
-};
-
-const validateReason = (blur) => {
-  const reason = formData.value.reason;
-
-  if (!reason) {
-    if (blur) errors.value.reason = "Reason is required";
-  } else if(reason.length > 200){
-    if(blur) errors.value.reason = "Reason must be 50 characters or fewer";
-  }
-  else {
-    errors.value.reason = null;
-
-
-  }
-};
-
-
-
-
+}
 </script>
-
-<style scoped>
-.card {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.card-header {
-  background-color: #275FDA;
-  color: white;
-  padding: 10px;
-  border-radius: 10px 10px 0 0;
-}
-
-.list-group-item {
-  padding: 10px;
-}
-</style>
