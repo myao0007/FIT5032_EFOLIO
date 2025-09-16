@@ -7,8 +7,16 @@
 </template>
 
 <script setup>
-// No script needed for now
 </script>
 
 <style>
+.about {
+  text-align: center;         
+  margin-top: 100px;         
+}
+
+.about h1 {
+  margin-bottom: 20px;         
+}
+
 </style>
