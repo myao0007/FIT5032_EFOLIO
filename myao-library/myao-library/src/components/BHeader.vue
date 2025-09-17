@@ -1,12 +1,39 @@
 <script setup>
-import { isAuthenticated } from '../store/auth'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAuth, signOut } from 'firebase/auth'
 
 const router = useRouter()
+const auth = getAuth()
+const isLoggedIn = ref(false)
+const userEmail = ref('')
 
-const logout = () => {
-  isAuthenticated.value = false
-  router.push({ name: 'Login' })  
+onMounted(() => {
+  // Check if user is logged in
+  if (auth.currentUser) {
+    isLoggedIn.value = true
+    userEmail.value = auth.currentUser.email
+  }
+  
+  // Listen for authentication state changes
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      isLoggedIn.value = true
+      userEmail.value = user.email
+    } else {
+      isLoggedIn.value = false
+      userEmail.value = ''
+    }
+  })
+})
+
+const logout = async () => {
+  try {
+    await signOut(auth)
+    router.push('/')
+  } catch (error) {
+    console.error('Logout failed:', error)
+  }
 }
 </script>
 
@@ -18,70 +45,70 @@ const logout = () => {
           <router-link to="/" class="nav-link" active-class="active">Home (Week 5)</router-link>
         </li>
 
-        
         <li class="nav-item">
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
         </li>
 
-        
-        <li class="nav-item" v-if="!isAuthenticated">
-          <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
-        </li>
-        <li class="nav-item" v-else>
-          <button class="btn nav-link" @click="logout">Logout</button>
-        </li>
-
-        <li class="nav-item">
+        <!-- Show login and register buttons when not logged in -->
+        <li class="nav-item" v-if="!isLoggedIn">
           <router-link to="/firelogin" class="nav-link" active-class="active">Firebase Login</router-link>
         </li>
         
-        <li class="nav-item">
+        <li class="nav-item" v-if="!isLoggedIn">
           <router-link to="/fireregister" class="nav-link" active-class="active">Firebase Register</router-link>
         </li>
 
         <li class="nav-item">
           <router-link to="/addbook" class="nav-link" active-class="active">Add Book</router-link>
-
         </li>
+
+        <!-- Show user info and logout button when logged in -->
+        <li class="nav-item" v-if="isLoggedIn">
+          <span class="nav-link">Welcome, {{ userEmail }}</span>
+        </li>
+        
+        <li class="nav-item" v-if="isLoggedIn">
+          <button class="btn nav-link" @click="logout">Logout</button>
+        </li>
+        
       </ul>
     </header>
   </div>
 </template>
 
 <style scoped>
-.b-example-divider {
-    height: 3rem;
-    background-color: rgba(0, 0, 0, 0.1);
-    border: solid rgba(0, 0, 0, 0.15);
-    border-width: 1px 0;
-    box-shadow:
-        inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-        inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.form-control-dark {
-    color: #fff;
-    background-color: var(--bs-dark);
-    border-color: var(--bs-gray);
+.nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
 }
 
-.form-control-dark:focus {
-    color: #fff;
-    background-color: var(--bs-dark);
-    border-color: #fff;
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 4px;
 }
 
-.bi {
-    vertical-align: -0.125em;
-    fill: currentColor;
+.nav-link:hover {
+  background-color: #f0f0f0;
 }
 
-.text-small {
-    font-size: 85%;
+.nav-link.active {
+  background-color: #007bff;
+  color: white;
 }
 
-.dropdown-toggle {
-    outline: 0;
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 </style>

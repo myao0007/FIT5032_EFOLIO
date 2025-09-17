@@ -3,12 +3,12 @@
     <div class="add-book"> 
         <h1>Add Book</h1>
         <form @submit.prevent="addBook"> 
-            <div>
+            <div class="form-group">
                 <label for="isbn">ISBN:</label>
                 <input type="text" id="isbn" v-model="isbn" required />
             </div>
 
-            <div>
+            <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" v-model="name" required />
             </div>
@@ -16,6 +16,7 @@
             <button type="submit">Add Book</button>
 
         </form>
+        <BookList />
             
     </div>
 </template> 
@@ -24,9 +25,12 @@
 import { ref } from 'vue';
 import db from '../Firebase/init.js';
 import { collection, addDoc } from 'firebase/firestore';
-//import BookList from '../components/BookList.vue';
+import BookList from '../components/BookList.vue';
 
 export default {
+    components: {
+        BookList
+    },
   setup() {
     const isbn = ref('');
     const name = ref('');
@@ -57,9 +61,14 @@ export default {
       name,
       addBook
     };
-  }
+  },
+    components: {
+        BookList
+    }
+  
 };
 </script>
+
 
 <style scoped>
 .add-book {
@@ -68,20 +77,47 @@ export default {
 }
 
 .add-book h1 {
-  margin-bottom: 20px;
+  font-size: 48px;
+  font-weight: normal;
+  color: #333;
+  margin-bottom: 50px;
+  margin-top: 0;
 }
 
-.add-book div {
-  margin-bottom: 15px; 
+.form-group {
+  margin-bottom: 15px;
 }
 
-.add-book button {
-  margin-top: 10px;   
-  padding: 8px 16px;
-  border: 1px solid #333;
-  background-color: #f5f5f5;
+.form-group label {
+  display: inline-block;
+  width: 80px;
+  text-align: right;
+  margin-right: 10px;
+  color: #333;
+}
+
+.form-group input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
+  margin-top: 10px;
 }
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
 </style>
 
  
