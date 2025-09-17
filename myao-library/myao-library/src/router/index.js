@@ -9,6 +9,7 @@ import FirebaseRegisterView from '../views/FirebaseRegisterView.vue'
 import AddBookView from '../views/AddBookView.vue'
 import UserWelcomeView from '../views/UserWelcomeView.vue'
 import SetupAdminView from '../views/SetupAdminView.vue'
+import LogoutPageView from '../views/LogoutPageView.vue'
 
 
 const routes = [
@@ -59,6 +60,12 @@ const routes = [
     path: '/setup-admin',
     name: 'SetupAdmin',
     component: SetupAdminView
+  },
+
+  {
+    path: '/logout-page',
+    name: 'LogoutPage',
+    component: LogoutPageView
   }
 ]
 

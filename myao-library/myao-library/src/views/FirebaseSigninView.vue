@@ -30,8 +30,12 @@ const signin = async () => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
     
-    // Redirect to home page after successful login
-    router.push("/");
+    // Check if admin user, redirect to about page
+    if (email.value === 'admin@admin.com') {
+      router.push("/about");
+    } else {
+      router.push("/");
+    }
   } catch (error) {
     alert("Login failed");
   }

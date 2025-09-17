@@ -61,6 +61,10 @@ const logout = async () => {
         <li class="nav-item">
           <router-link to="/addbook" class="nav-link" active-class="active">Add Book</router-link>
         </li>
+<!-- 
+        <li class="nav-item">
+          <router-link to="/logout-page" class="nav-link" active-class="active">Logout Page</router-link>
+        </li> -->
 
         <!-- Show user info and logout button when logged in -->
         <li class="nav-item" v-if="isLoggedIn">

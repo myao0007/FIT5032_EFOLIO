@@ -7,6 +7,17 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import { getAuth } from 'firebase/auth';
+
+onMounted(() => {
+  const auth = getAuth();
+  console.log('About page loaded');
+  console.log('Current user:', auth.currentUser);
+  if (auth.currentUser) {
+    console.log('Admin user logged in:', auth.currentUser.email);
+  }
+});
 </script>
 
 <style>

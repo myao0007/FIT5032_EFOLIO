@@ -161,7 +161,19 @@
 
 <script setup>
 import { addUser, existsUser } from '../store/users';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { getAuth } from 'firebase/auth';
+
+onMounted(() => {
+  const auth = getAuth();
+  console.log('Home page loaded');
+  console.log('Current user:', auth.currentUser);
+  if (auth.currentUser) {
+    console.log('User logged in:', auth.currentUser.email);
+  } else {
+    console.log('No user logged in');
+  }
+});
 
 const formData = ref({
     username: '',
