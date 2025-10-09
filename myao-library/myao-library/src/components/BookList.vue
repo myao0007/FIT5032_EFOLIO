@@ -80,7 +80,7 @@ export default {
             console.error('Error fetching books: ', error);
             console.log("Trying without orderBy...");
             
-            // If orderBy fails, try with only where and limit
+            
             try {
                 const q2 = query(
                     collection(db, 'books'),

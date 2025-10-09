@@ -10,7 +10,9 @@ import AddBookView from '../views/AddBookView.vue'
 import UserWelcomeView from '../views/UserWelcomeView.vue'
 import SetupAdminView from '../views/SetupAdminView.vue'
 import LogoutPageView from '../views/LogoutPageView.vue'
-
+import GetBookCountView from '../views/GetBookCountView.vue'
+import WeatherCheckView from '../views/WeatherView.vue'
+import CountBookAPI from '../views/CountBookAPI.vue'
 
 const routes = [
   {
@@ -66,6 +68,25 @@ const routes = [
     path: '/logout-page',
     name: 'LogoutPage',
     component: LogoutPageView
+  },
+
+  {
+    path: '/GetBookCount',
+    name: 'GetBookCount',
+    component: GetBookCountView
+
+  },
+
+  {
+    path: '/WeatherCheck',
+    name: 'WeatherCheck',
+    component: WeatherCheckView
+  },
+
+  {
+    path: '/CountBookAPI',
+    name: 'CountBookAPI',
+    component: CountBookAPI
   }
 ]
 

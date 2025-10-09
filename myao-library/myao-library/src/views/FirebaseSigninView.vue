@@ -54,6 +54,7 @@ const signin = async () => {
   color: #333;
   margin-bottom: 50px;
   margin-top: 0;
+  font-family: sans-serif;
 }
 
 .form-group {
@@ -70,9 +71,10 @@ const signin = async () => {
 
 .form-group input {
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #d3d3d3;
   border-radius: 4px;
   width: 200px;
+  background-color: white;
 }
 
 button {
@@ -83,6 +85,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
+  font-size: 16px;
 }
 
 button:hover {

@@ -42,7 +42,7 @@ const logout = async () => {
     <header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
         <li class="nav-item">
-          <router-link to="/" class="nav-link" active-class="active">Home (Week 5)</router-link>
+          <router-link to="/" class="nav-link" active-class="active">Home</router-link>
         </li>
 
         <li class="nav-item">
@@ -73,6 +73,19 @@ const logout = async () => {
         
         <li class="nav-item" v-if="isLoggedIn">
           <button class="btn nav-link" @click="logout">Logout</button>
+        </li>
+
+        <li class = "nav-item">
+          <router-link to="/GetBookCount" class="nav-link" active-class="active">Get Book Count</router-link>
+
+        </li>
+
+        <li class = "nav-item">
+          <router-link to="/WeatherCheck" class="nav-link" active-class="active">Get Weather</router-link>
+        </li>
+
+        <li class = "nav-item">
+          <router-link to="/CountBookAPI" class="nav-link" active-class="active"> Count BookAPI</router-link>
         </li>
         
       </ul>
