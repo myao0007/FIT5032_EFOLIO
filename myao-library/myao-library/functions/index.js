@@ -17,6 +17,20 @@ const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
 
+// Simple function to capitalize book names
+exports.capitalizeBook = onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      const { bookName } = req.body;
+      const capitalizedName = bookName ? bookName.toUpperCase() : '';
+      res.status(200).send({ capitalizedName });
+    } catch (error) {
+      console.error('Error capitalizing book name:', error);
+      res.status(500).send('Error capitalizing book name');
+    }
+  });
+});
+
 exports.countBooks = onRequest((req, res) => {
   cors(req, res, async () => {
     try {

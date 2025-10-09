@@ -1,7 +1,7 @@
 
 <template> 
     <div class="booklist">
-        <h1>Books with ISBN > 1000 (Ordered by ISBN, Limited to 5)</h1>
+        <h1>Books with ISBN > 1000 (Ordered by ISBN, Limited to 10)</h1>
         <table class="books-table">
             <thead>
                 <tr>
@@ -86,7 +86,7 @@ export default {
                     collection(db, 'books'),
                     where('isbn', '>', 1000),
                     orderBy('isbn'),
-                    limit(5)
+                    limit(10)
                 );
                 const querySnapshot2 = await getDocs(q2);
                 const bookArray2 = [];

@@ -43,9 +43,32 @@ export default {
           return;
         }
 
+        // Try Firebase Function first, fallback to client-side processing
+        try {
+          const response = await fetch('https://us-central1-week7-yummy.cloudfunctions.net/capitalizeBook', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ bookName: name.value })
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            var capitalizedName = result.capitalizedName;
+            console.log('Used Firebase Function for capitalization');
+          } else {
+            throw new Error('Firebase Function not available');
+          }
+        } catch (functionError) {
+          // Fallback to client-side processing
+          var capitalizedName = name.value.toUpperCase();
+          console.log('Used client-side processing for capitalization');
+        }
+
         await addDoc(collection(db, 'books'), {
           isbn: isbnNumber,
-          name: name.value
+          name: capitalizedName
         });
 
         isbn.value = '';
@@ -53,6 +76,7 @@ export default {
         alert('Book added successfully!');
       } catch (error) {
         console.error('Error adding book: ', error);
+        alert('Failed to add book. Please try again.');
       }
     };
 
