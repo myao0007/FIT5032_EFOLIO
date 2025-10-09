@@ -85,7 +85,7 @@ const logout = async () => {
         </li>
 
         <li class = "nav-item">
-          <router-link to="/CountBookAPI" class="nav-link" active-class="active"> Count BookAPI</router-link>
+          <router-link to="/CountBookAPI" class="nav-link" active-class="active"> Count Book API</router-link>
         </li>
         
       </ul>

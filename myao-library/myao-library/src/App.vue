@@ -1,8 +1,23 @@
-<script setup>
+<script>
 //import JSON from './components/JSON.vue' 
 //import AttributeBinding from './components/AttributeBinding.vue'
 //import LoginForm from './components/LoginForm.vue';
 import BHeader from './components/BHeader.vue';
+import CountBookAPI from './views/CountBookAPI.vue';
+
+export default {
+  name: 'App',
+  components: {
+    BHeader,
+    CountBookAPI
+  },
+  computed:{
+    showHeader(){
+      return this.$route.name !== 'CountBookAPI';
+    }
+  }
+  
+};
 //import router from './router';
 </script>
 
@@ -13,7 +28,7 @@ import BHeader from './components/BHeader.vue';
   <!--LoginForm /-->
 
   <div class="main-container">
-    <header>
+    <header v-if = "showHeader">
       <BHeader />
     </header>
 

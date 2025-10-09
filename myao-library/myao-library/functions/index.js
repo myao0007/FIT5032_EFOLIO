@@ -38,7 +38,7 @@ exports.countBooks = onRequest((req, res) => {
       const count = snapshot.size;
       res.status(200).send({ count });
     } catch (error) {
-      // 如果想用 logger：logger.error('Error counting books', error);
+      // logger：logger.error('Error counting books', error);
       console.error('Error counting books:', error.message);
       res.status(500).send('Error counting books');
     }
