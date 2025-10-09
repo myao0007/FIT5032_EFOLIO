@@ -21,7 +21,7 @@ export default {
     async getBookCount() {
       try {
         const response = await axios.get(
-          'https://<你的-cloudfunctions-域名>/countBooks'
+          'https://countbooks-dqvffu4xqq-uc.a.run.app'
         );
         this.count = response.data.count;
         this.error = null;
