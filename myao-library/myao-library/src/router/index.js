@@ -14,92 +14,168 @@ import GetBookCountView from '../views/GetBookCountView.vue'
 import WeatherCheckView from '../views/WeatherView.vue'
 import CountBookAPI from '../views/CountBookAPI.vue'
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: HomeView
-  },
+// const routes = [
+//   {
+//     path: '/',
+//     name: 'Home',
+//     component: HomeView
+//   },
 
-  {
-  path: '/login',
-  name: 'Login',
-  component: LoginFormView   
-},
-  {
-    path: '/about',
-    name: 'About',
-    component: AboutView,
-    meta: { requiresAuth: true }
-  },
+//   {
+//   path: '/login',
+//   name: 'Login',
+//   component: LoginFormView   
+// },
+//   {
+//     path: '/about',
+//     name: 'About',
+//     component: AboutView,
+//     meta: { requiresAuth: true }
+//   },
 
-  {
-    path: '/firelogin',   
-    name: 'FireLogin',
-    component: FirebaseSigninView
-  },
+//   {
+//     path: '/firelogin',   
+//     name: 'FireLogin',
+//     component: FirebaseSigninView
+//   },
 
-  {
-    path: '/fireregister',   
-    name: 'FireRegister',
-    component: FirebaseRegisterView
-  },
+//   {
+//     path: '/fireregister',   
+//     name: 'FireRegister',
+//     component: FirebaseRegisterView
+//   },
 
-  {
-    path: '/addbook',
-    name: 'AddBook',
-    component: AddBookView
-  },
+//   {
+//     path: '/addbook',
+//     name: 'AddBook',
+//     component: AddBookView
+//   },
 
-  {
-    path: '/welcome',
-    name: 'UserWelcome',
-    component: UserWelcomeView,
-    meta: { requiresAuth: true }
-  },
+//   {
+//     path: '/welcome',
+//     name: 'UserWelcome',
+//     component: UserWelcomeView,
+//     meta: { requiresAuth: true }
+//   },
 
-  {
-    path: '/setup-admin',
-    name: 'SetupAdmin',
-    component: SetupAdminView
-  },
+//   {
+//     path: '/setup-admin',
+//     name: 'SetupAdmin',
+//     component: SetupAdminView
+//   },
 
-  {
-    path: '/logout-page',
-    name: 'LogoutPage',
-    component: LogoutPageView
-  },
+//   {
+//     path: '/logout-page',
+//     name: 'LogoutPage',
+//     component: LogoutPageView
+//   },
 
-  {
-    path: '/GetBookCount',
-    name: 'GetBookCount',
-    component: GetBookCountView
+//   {
+//     path: '/GetBookCount',
+//     name: 'GetBookCount',
+//     component: GetBookCountView
 
-  },
+//   },
 
-  {
-    path: '/WeatherCheck',
-    name: 'WeatherCheck',
-    component: WeatherCheckView
-  },
+//   {
+//     path: '/WeatherCheck',
+//     name: 'WeatherCheck',
+//     component: WeatherCheckView
+//   },
 
-  {
-    path: '/CountBookAPI',
-    name: 'CountBookAPI',
-    component: CountBookAPI
-  }
-]
+//   {
+//     path: '/CountBookAPI',
+//     name: 'CountBookAPI',
+//     component: CountBookAPI
+//   }
+// ]
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+  history: createWebHistory(import.meta.env.BASE_URL || '/'),
+  routes: [
+    // your routes here
+    {
+      path: '/',
+      name: 'Home',
+      component: HomeView
+    },
+
+    {
+      path: '/login',
+      name: 'Login',
+      component: LoginFormView
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: AboutView,
+      meta: { requiresAuth: true }
+    },
+
+    {
+      path: '/firelogin',
+      name: 'FireLogin',
+      component: FirebaseSigninView
+    },
+
+    {
+      path: '/fireregister',
+      name: 'FireRegister',
+      component: FirebaseRegisterView
+    },
+
+    {
+      path: '/addbook',
+      name: 'AddBook',
+      component: AddBookView
+    },
+
+    {
+      path: '/welcome',
+      name: 'UserWelcome',
+      component: UserWelcomeView,
+      meta: { requiresAuth: true }
+    },
+
+    {
+      path: '/setup-admin',
+      name: 'SetupAdmin',
+      component: SetupAdminView
+    },
+
+    {
+      path: '/logout-page',
+      name: 'LogoutPage',
+      component: LogoutPageView
+    },
+
+    {
+      path: '/GetBookCount',
+      name: 'GetBookCount',
+      component: GetBookCountView
+
+    },
+
+    {
+      path: '/WeatherCheck',
+      name: 'WeatherCheck',
+      component: WeatherCheckView
+    },
+
+    {
+      path: '/CountBookAPI',
+      name: 'CountBookAPI',
+      component: CountBookAPI
+    }
+
+  ]
 })
 
 router.beforeEach((to, from, next) => {
   const needAuth = to.matched.some(r => r.meta.requiresAuth)
   const auth = getAuth()
   const isFirebaseAuth = auth.currentUser !== null
-  
+
   if (needAuth && !isFirebaseAuth) {
     next({ name: 'FireLogin', query: { redirect: to.fullPath } })
   } else {

@@ -22,11 +22,6 @@ export default {
 </script>
 
 <template>
-  <!--JSON /-->
-  <!--AttributeBinding /-->
-  
-  <!--LoginForm /-->
-
   <div class="main-container">
     <header v-if = "showHeader">
       <BHeader />
@@ -36,10 +31,18 @@ export default {
       <router-view></router-view>
     </main>
   </div>
-
 </template>
 
 <style scoped>
+.main-container {
+  min-height: 100vh;
+}
+
+.main-box {
+  padding: 20px;
+  min-height: calc(100vh - 80px);
+}
+
 .card {
     border: 1px solid #ccc;
     border-radius: 10px;
