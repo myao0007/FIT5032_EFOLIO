@@ -8,6 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
     - name: Checkout
@@ -25,10 +28,14 @@ jobs:
       run: npm run build
 
     - name: Deploy
+      id: deployment
       uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
         branch: gh-pages
         folder: dist
+        token: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
