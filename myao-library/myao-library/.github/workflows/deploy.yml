@@ -2,8 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -14,25 +13,28 @@ jobs:
         working-directory: ./myao-library/myao-library
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20.19.0'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        run: npm run build
 
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@4.1.4
-      with:
-        branch: gh-pages
-        folder: dist
+      - name: Create 404 fallback
+        run: cp dist/index.html dist/404.html
 
-permissions:
-  contents: write
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.1.4
+        with:
+          branch: gh-pages
+          folder: myao-library/myao-library/dist
+
+    permissions:
+      contents: write
